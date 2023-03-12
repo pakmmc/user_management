@@ -1,0 +1,11 @@
+{% extends "_layout.html" %}
+
+{% block content %}
+<h1>Hello World!</h1>
+
+{% for row in result %}
+<p>{{ row["first_name"] }} {{ row["last_name"] }}</p>
+<a href="mailto:{{ row[] }}">{{ row["email"] }}</a>
+{% endfor %}
+
+{% endblock %}
