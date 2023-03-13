@@ -3,9 +3,20 @@
 {% block content %}
 <h1>Hello World!</h1>
 
+<table>
+    <colgroup><col><col><col></colgroup>
+    <tr>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Email</th>
+    </tr>
 {% for row in result %}
-<p>{{ row["first_name"] }} {{ row["last_name"] }}</p>
-<a href="mailto:{{ row[] }}">{{ row["email"] }}</a>
+    <tr>
+        <td>{{ row["first_name"] }}</td>
+        <td>{{ row["last_name"] }}</td>
+        <td> <a href="mailto:{{ row['email'] }}">{{ row['email'] }}</a> </td>
+    </tr>
 {% endfor %}
+</table>
 
 {% endblock %}

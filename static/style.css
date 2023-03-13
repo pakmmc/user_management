@@ -1,0 +1,15 @@
+table {
+    /* Make the borders touch each other */
+    border-collapse: collapse;
+}
+th, td {
+    border: 1px solid black;
+    padding: 4px 6px;
+}
+/* :nth-child selects only the elements matching the equation */
+tr:nth-child(2n) {
+    background-color: lightgrey;
+}
+col:nth-child(2n + 1) {
+    background-color: red;
+}
