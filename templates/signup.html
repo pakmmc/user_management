@@ -1,0 +1,24 @@
+{% extends "_layout.html" %}
+
+{% block content %}
+
+<form method="POST">
+    <label>First Name</label>
+    <input name="first_name">
+    <br>
+    <label>Last Name</label>
+    <input name="last_name">
+    <br>
+    <label>Email</label>
+    <input name="email" type="email">
+    <br>
+    <label>Password</label>
+    <input name="password" type="password">
+    <br>
+    <label>Date of Birth</label>
+    <input name="birthday" type="date">
+    <br>
+    <button type="submit">Sign Up</button>
+</form>
+
+{% endblock %}
