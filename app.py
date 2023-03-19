@@ -23,7 +23,6 @@ def home():
             result = cursor.fetchall()
     return render_template("home.html", result=result)
 
-
 @app.route("/signup", methods=["GET", "POST"])
 def signup():
     if request.method == "POST":
@@ -47,10 +46,17 @@ def signup():
     else:
         return render_template("signup.html")
 
-
-
 # TODO: UPDATE
 
-# TODO: DELETE
+# /delete?id=1
+@app.route("/delete")
+def delete():
+    with create_connection() as connection:
+        with connection.cursor() as cursor:
+            sql = "DELETE FROM users WHERE id = %s"
+            values = (request.args["id"])
+            cursor.execute(sql, values)
+            connection.commit()
+    return redirect("/")
 
 app.run(debug=True)
