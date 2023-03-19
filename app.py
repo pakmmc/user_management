@@ -46,7 +46,39 @@ def signup():
     else:
         return render_template("signup.html")
 
-# TODO: UPDATE
+# /update?id=1
+@app.route("/update", methods=["GET", "POST"])
+def update():
+    if request.method == "POST":
+        with create_connection() as connection:
+            with connection.cursor() as cursor:
+                sql = """UPDATE users SET
+                    first_name = %s,
+                    last_name = %s,
+                    email = %s,
+                    password = %s,
+                    birthday = %s
+                    WHERE id = %s
+                """
+                values = (
+                    request.form['first_name'],
+                    request.form['last_name'],
+                    request.form['email'],
+                    request.form['password'],
+                    request.form['birthday'],
+                    request.form['id']
+                )
+                cursor.execute(sql, values)
+                connection.commit()
+        return redirect("/")
+    else:
+        with create_connection() as connection:
+            with connection.cursor() as cursor:
+                sql = "SELECT * FROM users WHERE id = %s"
+                values = (request.args["id"])
+                cursor.execute(sql, values)
+                result = cursor.fetchone()
+        return render_template("update.html", result=result)
 
 # /delete?id=1
 @app.route("/delete")
