@@ -23,6 +23,27 @@ def home():
             result = cursor.fetchall()
     return render_template("home.html", result=result)
 
+
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    if request.method == "POST":
+        with create_connection() as connection:
+            with connection.cursor() as cursor:
+                sql = """SELECT * FROM users
+                    WHERE email = %s AND password = %s"""
+                values = (
+                    request.form["email"],
+                    request.form["password"]
+                )
+                cursor.execute(sql, values)
+                result = cursor.fetchone()
+        if result:
+            return "Success!"
+        else:
+            return "Wrong username or password!"
+    return render_template("login.html")
+
+
 @app.route("/signup", methods=["GET", "POST"])
 def signup():
     if request.method == "POST":
