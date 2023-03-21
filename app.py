@@ -47,6 +47,11 @@ def login():
             return "Wrong username or password!"
     return render_template("login.html")
 
+@app.route("/logout")
+def logout():
+    session.clear()
+    return redirect("/")
+
 
 @app.route("/signup", methods=["GET", "POST"])
 def signup():
