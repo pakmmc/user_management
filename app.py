@@ -1,6 +1,9 @@
 import pymysql
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, session
 app = Flask(__name__)
+
+# Allow flask to encrypt the session cookie.
+app.secret_key = "any-random-string-reshrdjtfkygluvchfjkhlbh"
 
 def create_connection():
     return pymysql.connect(
@@ -38,7 +41,8 @@ def login():
                 cursor.execute(sql, values)
                 result = cursor.fetchone()
         if result:
-            return "Success!"
+            session["logged_in"] = True
+            return redirect("/")
         else:
             return "Wrong username or password!"
     return render_template("login.html")
