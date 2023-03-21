@@ -13,3 +13,25 @@ tr:nth-child(2n) {
 col:nth-child(2n + 1) {
     background-color: red;
 }
+
+nav {
+    background-color: lightblue;
+    margin: -10px -10px 0;
+    padding: 8px;
+    text-align: end;
+}
+nav a {
+    display: inline-block;
+    margin: 2px;
+    padding: 8px 12px;
+    color: black;
+    background-color: white;
+    text-decoration: none;
+    border-radius: 2px;
+    transition-property: background-color, transform;
+    transition-duration: 300ms;
+}
+nav a:hover {
+    background-color:lavender;
+    transform: translateY(-3px);
+}

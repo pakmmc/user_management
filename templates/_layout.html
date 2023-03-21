@@ -6,6 +6,15 @@
         <link rel="stylesheet" href="static/style.css">
     </head>
     <body>
+        <nav>
+            {% if session["logged_in"] %}
+                You are logged in!
+            {% else %}
+                You are not logged in.
+                <a href="/login">Login</a>
+                <a href="/signup">Sign Up!</a>
+            {% endif %}
+        </nav>
         {% block content %}
         {% endblock %}
     </body>
