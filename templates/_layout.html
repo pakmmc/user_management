@@ -8,7 +8,7 @@
     <body>
         <nav>
             {% if session["logged_in"] %}
-                You are logged in!
+                Welcome, {{ session["first_name"] }}!
                 <a href="/logout">Log out</a>
             {% else %}
                 You are not logged in.

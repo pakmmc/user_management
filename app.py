@@ -42,6 +42,7 @@ def login():
                 result = cursor.fetchone()
         if result:
             session["logged_in"] = True
+            session["first_name"] = result["first_name"]
             return redirect("/")
         else:
             return "Wrong username or password!"
