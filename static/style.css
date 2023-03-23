@@ -35,3 +35,7 @@ nav a:hover {
     background-color:lavender;
     transform: translateY(-3px);
 }
+
+.message {
+    background-color: pink;
+}

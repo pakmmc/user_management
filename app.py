@@ -1,5 +1,5 @@
 import pymysql
-from flask import Flask, render_template, request, redirect, session
+from flask import Flask, render_template, request, redirect, session, flash
 app = Flask(__name__)
 
 # Allow flask to encrypt the session cookie.
@@ -46,7 +46,8 @@ def login():
             session["first_name"] = result["first_name"]
             return redirect("/")
         else:
-            return "Wrong username or password!"
+            flash("Wrong username or password!")
+            return redirect("/login")
     return render_template("login.html")
 
 @app.route("/logout")
@@ -82,6 +83,7 @@ def signup():
 @app.route("/update", methods=["GET", "POST"])
 def update():
     if not ("logged_in" in session and session["id"] == int(request.args["id"])):
+        flash("You don't have permission to do that!")
         return redirect("/")
 
     if request.method == "POST":
@@ -119,6 +121,7 @@ def update():
 @app.route("/delete")
 def delete():
     if not ("logged_in" in session and session["id"] == int(request.args["id"])):
+        flash("You don't have permission to do that!")
         return redirect("/")
     
     with create_connection() as connection:

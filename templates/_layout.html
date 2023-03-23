@@ -16,6 +16,9 @@
                 <a href="/signup">Sign Up!</a>
             {% endif %}
         </nav>
+        {% for message in get_flashed_messages() %}
+            <p class="message">{{ message }}</p>
+        {% endfor %}
         {% block content %}
         {% endblock %}
     </body>
