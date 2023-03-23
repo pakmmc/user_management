@@ -42,6 +42,7 @@ def login():
                 result = cursor.fetchone()
         if result:
             session["logged_in"] = True
+            session["id"] = result["id"]
             session["first_name"] = result["first_name"]
             return redirect("/")
         else:
@@ -80,6 +81,9 @@ def signup():
 # /update?id=1
 @app.route("/update", methods=["GET", "POST"])
 def update():
+    if not ("logged_in" in session and session["id"] == int(request.args["id"])):
+        return redirect("/")
+
     if request.method == "POST":
         with create_connection() as connection:
             with connection.cursor() as cursor:
@@ -114,6 +118,9 @@ def update():
 # /delete?id=1
 @app.route("/delete")
 def delete():
+    if not ("logged_in" in session and session["id"] == int(request.args["id"])):
+        return redirect("/")
+    
     with create_connection() as connection:
         with connection.cursor() as cursor:
             sql = "DELETE FROM users WHERE id = %s"
