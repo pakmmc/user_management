@@ -44,6 +44,7 @@ def login():
             session["logged_in"] = True
             session["id"] = result["id"]
             session["first_name"] = result["first_name"]
+            session["role"] = result["role"]
             return redirect("/")
         else:
             flash("Wrong username or password!")
@@ -82,7 +83,10 @@ def signup():
 # /update?id=1
 @app.route("/update", methods=["GET", "POST"])
 def update():
-    if not ("logged_in" in session and session["id"] == int(request.args["id"])):
+    if not ("logged_in" in session and (
+        session["id"] == int(request.args["id"])
+        or session["role"] == "admin"
+    )):
         flash("You don't have permission to do that!")
         return redirect("/")
 
@@ -120,7 +124,10 @@ def update():
 # /delete?id=1
 @app.route("/delete")
 def delete():
-    if not ("logged_in" in session and session["id"] == int(request.args["id"])):
+    if not ("logged_in" in session and (
+        session["id"] == int(request.args["id"])
+        or session["role"] == "admin"
+    )):
         flash("You don't have permission to do that!")
         return redirect("/")
     
