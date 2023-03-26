@@ -17,6 +17,14 @@ def create_connection():
         cursorclass=pymysql.cursors.DictCursor
     )
 
+def can_access():
+    if "logged_in" in session:
+        matching_id = session["id"] == int(request.args["id"])
+        is_admin = session["role"] == "admin"
+        return matching_id or is_admin
+    else:
+        return False
+
 @app.route("/")
 def home():
     with create_connection() as connection:
@@ -83,10 +91,7 @@ def signup():
 # /update?id=1
 @app.route("/update", methods=["GET", "POST"])
 def update():
-    if not ("logged_in" in session and (
-        session["id"] == int(request.args["id"])
-        or session["role"] == "admin"
-    )):
+    if not can_access():
         flash("You don't have permission to do that!")
         return redirect("/")
 
@@ -124,10 +129,7 @@ def update():
 # /delete?id=1
 @app.route("/delete")
 def delete():
-    if not ("logged_in" in session and (
-        session["id"] == int(request.args["id"])
-        or session["role"] == "admin"
-    )):
+    if not can_access():
         flash("You don't have permission to do that!")
         return redirect("/")
     
