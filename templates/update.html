@@ -4,6 +4,7 @@
 
 <form method="POST">
     <input name="id" type="hidden" value="{{ result['id'] }}">
+    <input name="old_password" type="hidden" value="{{ result['password'] }}">
     <label>First Name</label>
     <input name="first_name" value="{{ result['first_name'] }}">
     <br>
@@ -14,7 +15,7 @@
     <input name="email" type="email" value="{{ result['email'] }}">
     <br>
     <label>Password</label>
-    <input name="password" type="password" value="{{ result['password'] }}">
+    <input name="password" type="password">
     <br>
     <label>Date of Birth</label>
     <input name="birthday" type="date" value="{{ result['birthday'] }}">

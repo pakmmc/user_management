@@ -1,4 +1,5 @@
 import pymysql
+import hashlib
 from flask import Flask, render_template, request, redirect, session, flash
 app = Flask(__name__)
 
@@ -40,11 +41,15 @@ def login():
     if request.method == "POST":
         with create_connection() as connection:
             with connection.cursor() as cursor:
+
+                password = request.form["password"]
+                encrypted_password = hashlib.sha256(password.encode()).hexdigest()
+
                 sql = """SELECT * FROM users
                     WHERE email = %s AND password = %s"""
                 values = (
                     request.form["email"],
-                    request.form["password"]
+                    encrypted_password
                 )
                 cursor.execute(sql, values)
                 result = cursor.fetchone()
@@ -70,6 +75,10 @@ def signup():
     if request.method == "POST":
         with create_connection() as connection:
             with connection.cursor() as cursor:
+
+                password = request.form["password"]
+                encrypted_password = hashlib.sha256(password.encode()).hexdigest()
+                
                 # Any input from the user should be replaced by '%s',
                 # so that their input isn't accidentally treated as bits of SQL.
                 sql = """INSERT INTO users
@@ -79,7 +88,7 @@ def signup():
                     request.form["first_name"],
                     request.form["last_name"],
                     request.form["email"],
-                    request.form["password"],
+                    encrypted_password,
                     request.form["birthday"]
                 )
                 cursor.execute(sql, values)
@@ -98,6 +107,13 @@ def update():
     if request.method == "POST":
         with create_connection() as connection:
             with connection.cursor() as cursor:
+
+                password = request.form["password"]
+                if password:
+                    encrypted_password = hashlib.sha256(password.encode()).hexdigest()
+                else:
+                    encrypted_password = request.form["old_password"]
+
                 sql = """UPDATE users SET
                     first_name = %s,
                     last_name = %s,
@@ -110,7 +126,7 @@ def update():
                     request.form['first_name'],
                     request.form['last_name'],
                     request.form['email'],
-                    request.form['password'],
+                    encrypted_password,
                     request.form['birthday'],
                     request.form['id']
                 )
