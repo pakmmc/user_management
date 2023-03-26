@@ -26,6 +26,9 @@ def can_access():
     else:
         return False
 
+def encrypt(password):
+    return hashlib.sha256(password.encode()).hexdigest()
+
 @app.route("/")
 def home():
     with create_connection() as connection:
@@ -41,15 +44,11 @@ def login():
     if request.method == "POST":
         with create_connection() as connection:
             with connection.cursor() as cursor:
-
-                password = request.form["password"]
-                encrypted_password = hashlib.sha256(password.encode()).hexdigest()
-
                 sql = """SELECT * FROM users
                     WHERE email = %s AND password = %s"""
                 values = (
                     request.form["email"],
-                    encrypted_password
+                    encrypt(request.form["password"])
                 )
                 cursor.execute(sql, values)
                 result = cursor.fetchone()
@@ -75,10 +74,6 @@ def signup():
     if request.method == "POST":
         with create_connection() as connection:
             with connection.cursor() as cursor:
-
-                password = request.form["password"]
-                encrypted_password = hashlib.sha256(password.encode()).hexdigest()
-                
                 # Any input from the user should be replaced by '%s',
                 # so that their input isn't accidentally treated as bits of SQL.
                 sql = """INSERT INTO users
@@ -88,7 +83,7 @@ def signup():
                     request.form["first_name"],
                     request.form["last_name"],
                     request.form["email"],
-                    encrypted_password,
+                    encrypt(request.form["password"]),
                     request.form["birthday"]
                 )
                 cursor.execute(sql, values)
@@ -110,7 +105,7 @@ def update():
 
                 password = request.form["password"]
                 if password:
-                    encrypted_password = hashlib.sha256(password.encode()).hexdigest()
+                    encrypted_password = encrypt(password)
                 else:
                     encrypted_password = request.form["old_password"]
 
