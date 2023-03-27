@@ -2,7 +2,7 @@
 
 {% block content %}
 
-<form method="POST">
+<form method="POST" enctype="multipart/form-data">
     <label>First Name</label>
     <input name="first_name">
     <br>
@@ -17,6 +17,9 @@
     <br>
     <label>Date of Birth</label>
     <input name="birthday" type="date">
+    <br>
+    <label>Profile Picture</label>
+    <input type="file" name="image">
     <br>
     <button type="submit">Sign Up</button>
 </form>

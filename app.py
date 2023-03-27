@@ -74,17 +74,23 @@ def signup():
     if request.method == "POST":
         with create_connection() as connection:
             with connection.cursor() as cursor:
+
+                image = request.files["image"]
+                image_path = "static/images/" + image.filename
+                image.save(image_path)
+
                 # Any input from the user should be replaced by '%s',
                 # so that their input isn't accidentally treated as bits of SQL.
                 sql = """INSERT INTO users
-                    (first_name, last_name, email, password, birthday)
-                    VALUES (%s, %s, %s, %s, %s)"""
+                    (first_name, last_name, email, password, birthday, image)
+                    VALUES (%s, %s, %s, %s, %s, %s)"""
                 values = (
                     request.form["first_name"],
                     request.form["last_name"],
                     request.form["email"],
                     encrypt(request.form["password"]),
-                    request.form["birthday"]
+                    request.form["birthday"],
+                    image_path
                 )
                 cursor.execute(sql, values)
                 connection.commit() # <-- NEW!!! Save to the database
