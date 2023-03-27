@@ -6,6 +6,7 @@
 <table>
     <colgroup><col><col><col></colgroup>
     <tr>
+        <th>Picture</th>
         <th>First Name</th>
         <th>Last Name</th>
         <th>Email</th>
@@ -13,6 +14,7 @@
     </tr>
 {% for row in result %}
     <tr>
+        <td><img src="{{ row['image'] }}" alt="profile" height="32"></td>
         <td>{{ row["first_name"] }}</td>
         <td>{{ row["last_name"] }}</td>
         <td> <a href="mailto:{{ row['email'] }}">{{ row['email'] }}</a> </td>
