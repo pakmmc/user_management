@@ -115,12 +115,20 @@ def update():
                 else:
                     encrypted_password = request.form["old_password"]
 
+                image = request.files["image"]
+                if image:
+                    image_path = "static/images/" + image.filename
+                    image.save(image_path)
+                else:
+                    image_path = request.form["old_image"]
+
                 sql = """UPDATE users SET
                     first_name = %s,
                     last_name = %s,
                     email = %s,
                     password = %s,
-                    birthday = %s
+                    birthday = %s,
+                    image = %s
                     WHERE id = %s
                 """
                 values = (
@@ -129,6 +137,7 @@ def update():
                     request.form['email'],
                     encrypted_password,
                     request.form['birthday'],
+                    image_path,
                     request.form['id']
                 )
                 cursor.execute(sql, values)
