@@ -1,5 +1,7 @@
 import pymysql
 import hashlib
+import uuid
+import os
 from flask import Flask, render_template, request, redirect, session, flash
 app = Flask(__name__)
 
@@ -76,7 +78,9 @@ def signup():
             with connection.cursor() as cursor:
 
                 image = request.files["image"]
-                image_path = "static/images/" + image.filename
+                # Choose a random filename to prevent clashes
+                ext = os.path.splitext(image.filename)[1]
+                image_path = "static/images/" + str(uuid.uuid4())[:8] + ext
                 image.save(image_path)
 
                 # Any input from the user should be replaced by '%s',
@@ -117,7 +121,9 @@ def update():
 
                 image = request.files["image"]
                 if image:
-                    image_path = "static/images/" + image.filename
+                    # Choose a random filename to prevent clashes
+                    ext = os.path.splitext(image.filename)[1]
+                    image_path = "static/images/" + str(uuid.uuid4())[:8] + ext
                     image.save(image_path)
                 else:
                     image_path = request.form["old_image"]
