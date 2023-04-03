@@ -1,0 +1,19 @@
+{% extends "_layout.html" %}
+
+{% block content %}
+
+<h1>{{ result['first_name'] }} {{ result['last_name'] }}</h1>
+
+<img src="{{ result['image'] }}" alt="profile" height="200">
+
+<p>Email: <a href="mailto:{{ result['email'] }}">{{ result['email'] }}</a></p>
+<p>Birthday: {{ result['birthday'] }}</p>
+
+{% if "logged_in" in session and
+    (session['id'] == result['id'] or session['role'] == 'admin')
+%}
+    <a href="/update?id={{ result['id'] }}">Edit</a>
+    <a href="/delete?id={{ result['id'] }}">Delete</a>
+{% endif %}
+
+{% endblock %}

@@ -102,6 +102,17 @@ def signup():
     else:
         return render_template("signup.html")
 
+# /view?id=1
+@app.route("/view")
+def view():
+    with create_connection() as connection:
+        with connection.cursor() as cursor:
+            sql = "SELECT * FROM users WHERE id = %s"
+            values = (request.args["id"])
+            cursor.execute(sql, values)
+            result = cursor.fetchone()
+    return render_template("view.html", result=result)
+
 # /update?id=1
 @app.route("/update", methods=["GET", "POST"])
 def update():
