@@ -206,6 +206,14 @@ def delete():
     
     with create_connection() as connection:
         with connection.cursor() as cursor:
+            # Get the image path before deleting the user
+            sql = "SELECT image FROM users WHERE id = %s"
+            values = (request.args["id"])
+            cursor.execute(sql, values)
+            result = cursor.fetchone()
+            if result["image"]:
+                os.remove(result["image"])
+
             sql = "DELETE FROM users WHERE id = %s"
             values = (request.args["id"])
             cursor.execute(sql, values)
