@@ -31,6 +31,15 @@ def can_access():
 def encrypt(password):
     return hashlib.sha256(password.encode()).hexdigest()
 
+def email_exists(email):
+    with create_connection() as connection:
+        with connection.cursor() as cursor:
+            sql = "SELECT * FROM users WHERE email = %s"
+            values = (email)
+            cursor.execute(sql, values)
+            result = cursor.fetchone()
+    return result is not None
+
 @app.route("/")
 def home():
     with create_connection() as connection:
@@ -74,6 +83,9 @@ def logout():
 @app.route("/signup", methods=["GET", "POST"])
 def signup():
     if request.method == "POST":
+        if email_exists(request.form["email"]):
+            flash("That email already exists.")
+            return redirect("/signup")
         with create_connection() as connection:
             with connection.cursor() as cursor:
 
