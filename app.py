@@ -184,4 +184,21 @@ def delete():
             connection.commit()
     return redirect("/")
 
+# /admin?id=1&role=admin
+@app.route("/admin")
+def toggle_admin():
+    if "logged_in" in session and session["role"] == "admin":
+        with create_connection() as connection:
+            with connection.cursor() as cursor:
+                sql = "UPDATE users SET role = %s WHERE id = %s"
+                values = (
+                    request.args["role"],
+                    request.args["id"]
+                )
+                cursor.execute(sql, values)
+                connection.commit()
+    else:
+        flash("You don't have permission to do that!")
+    return redirect("/")
+
 app.run(debug=True)

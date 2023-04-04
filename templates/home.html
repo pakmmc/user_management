@@ -6,6 +6,7 @@
 <table>
     <colgroup><col><col><col></colgroup>
     <tr>
+        <th>Role</th>
         <th>Picture</th>
         <th>First Name</th>
         <th>Last Name</th>
@@ -14,6 +15,19 @@
     </tr>
 {% for row in result %}
     <tr>
+        <td>
+            {% if row['role'] == 'admin' %}
+                Admin
+                {% if session['role'] == 'admin' and session['id'] != row['id'] %}
+                    <a href="/admin?id={{ row['id'] }}&role=user">toggle</a>
+                {% endif %}
+            {% else %}
+                User
+                {% if session['role'] == 'admin' %}
+                    <a href="/admin?id={{ row['id'] }}&role=admin">toggle</a>
+                {% endif %}
+            {% endif %}
+        </td>
         <td><img src="{{ row['image'] }}" alt="profile" height="32"></td>
         <td>{{ row["first_name"] }}</td>
         <td>{{ row["last_name"] }}</td>
