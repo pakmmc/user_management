@@ -162,6 +162,8 @@ def update():
                     ext = os.path.splitext(image.filename)[1]
                     image_path = "static/images/" + str(uuid.uuid4())[:8] + ext
                     image.save(image_path)
+                    if request.form["old_image"]:
+                        os.remove(request.form["old_image"])
                 else:
                     image_path = request.form["old_image"]
 
