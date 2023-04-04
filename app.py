@@ -40,6 +40,16 @@ def email_exists(email):
             result = cursor.fetchone()
     return result is not None
 
+# This runs before every page request.
+# If it returns something, the request will be prevented.
+@app.before_request
+def restrict():
+    restricted = ["admin_only"]
+    if request.endpoint in restricted:
+        if "logged_in" not in session or session["role"] != "admin":
+            flash("Only admin can view that page.")
+            return redirect('/')
+
 @app.route("/")
 def home():
     with create_connection() as connection:
@@ -243,5 +253,10 @@ def toggle_admin():
     else:
         flash("You don't have permission to do that!")
     return redirect("/")
+
+@app.route("/hidden")
+def admin_only():
+    return "Here is where I would put restricted content, if I had any."
+
 
 app.run(debug=True)
