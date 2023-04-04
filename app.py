@@ -196,6 +196,13 @@ def delete():
             connection.commit()
     return redirect("/")
 
+# /checkemail?email=a@a
+@app.route("/checkemail")
+def check_email():
+    return {
+        "exists": email_exists(request.args["email"])
+    }
+
 # /admin?id=1&role=admin
 @app.route("/admin")
 def toggle_admin():

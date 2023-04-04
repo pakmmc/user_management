@@ -10,8 +10,8 @@
     <input name="last_name">
     <br>
     <label>Email</label>
-    <input name="email" type="email">
-    <br>
+    <input id="email" name="email" type="email">
+    <p id="message"></p>
     <label>Password</label>
     <input name="password" type="password">
     <br>
@@ -23,5 +23,29 @@
     <br>
     <button type="submit">Sign Up</button>
 </form>
+
+<script>
+let input = document.querySelector('#email');
+let message = document.querySelector('#message');
+
+input.addEventListener('input', checkUniqueEmail);
+
+async function checkUniqueEmail() {
+    let response = await fetch('checkemail?email=' + input.value);
+    let json = await response.json();
+    if (json.exists) {
+        message.style.color = 'red';
+        message.textContent = 'That email already exists.';
+    } else if (input.validationMessage) {
+        message.style.color = 'orange';
+        message.textContent = input.validationMessage;
+    } else if (input.value) {
+        message.style.color = 'green';
+        message.textContent = 'That email is available!';
+    } else {
+        message.textContent = '';
+    }
+}
+</script>
 
 {% endblock %}
