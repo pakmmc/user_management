@@ -13,7 +13,8 @@
     <input id="email" name="email" type="email">
     <p id="message"></p>
     <label>Password</label>
-    <input name="password" type="password">
+    <input id="password" name="password" type="password">
+    <button id="show-password" type="button">Show</button>
     <br>
     <label>Date of Birth</label>
     <input name="birthday" type="date">
@@ -44,6 +45,23 @@ async function checkUniqueEmail() {
         message.textContent = 'That email is available!';
     } else {
         message.textContent = '';
+    }
+}
+</script>
+
+<script>
+let password = document.querySelector('#password');
+let showButton = document.querySelector('#show-password');
+
+showButton.addEventListener('click', togglePassword);
+
+function togglePassword() {
+    if (password.type == 'password') {
+        password.type = 'text';
+        showButton.textContent = 'Hide';
+    } else {
+        password.type = 'password';
+        showButton.textContent = 'Show';
     }
 }
 </script>

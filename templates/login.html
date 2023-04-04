@@ -7,9 +7,27 @@
     <input name="email" type="email">
     <br>
     <label>Password</label>
-    <input name="password" type="password">
+    <input id="password" name="password" type="password">
+    <button id="show-password" type="button">Show</button>
     <br>
     <button>Login</button>
 </form>
+
+<script>
+let password = document.querySelector('#password');
+let showButton = document.querySelector('#show-password');
+
+showButton.addEventListener('click', togglePassword);
+
+function togglePassword() {
+    if (password.type == 'password') {
+        password.type = 'text';
+        showButton.textContent = 'Hide';
+    } else {
+        password.type = 'password';
+        showButton.textContent = 'Show';
+    }
+}
+</script>
 
 {% endblock %}
