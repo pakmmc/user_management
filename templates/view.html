@@ -4,7 +4,7 @@
 
 <h1>{{ result['first_name'] }} {{ result['last_name'] }}</h1>
 
-<img src="{{ result['image'] }}" alt="profile" height="200">
+<img src="{{ result['image'] or 'static/images/default.png' }}" alt="profile" height="200">
 
 <p>Email: <a href="mailto:{{ result['email'] }}">{{ result['email'] }}</a></p>
 <p>Birthday: {{ result['birthday'] }}</p>

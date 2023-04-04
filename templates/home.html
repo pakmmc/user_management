@@ -28,7 +28,7 @@
                 {% endif %}
             {% endif %}
         </td>
-        <td><img src="{{ row['image'] }}" alt="profile" height="32"></td>
+        <td><img src="{{ row['image'] or 'static/images/default.png' }}" alt="profile" height="32"></td>
         <td>{{ row["first_name"] }}</td>
         <td>{{ row["last_name"] }}</td>
         <td> <a href="mailto:{{ row['email'] }}">{{ row['email'] }}</a> </td>

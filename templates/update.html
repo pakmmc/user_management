@@ -5,7 +5,7 @@
 <form method="POST" enctype="multipart/form-data">
     <input name="id" type="hidden" value="{{ result['id'] }}">
     <input name="old_password" type="hidden" value="{{ result['password'] }}">
-    <input name="old_image" type="hidden" value="{{ result['image'] }}">
+    <input name="old_image" type="hidden" value="{{ result['image'] or '' }}">
     <label>First Name</label>
     <input name="first_name" value="{{ result['first_name'] }}">
     <br>

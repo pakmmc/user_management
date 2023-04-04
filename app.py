@@ -90,10 +90,13 @@ def signup():
             with connection.cursor() as cursor:
 
                 image = request.files["image"]
-                # Choose a random filename to prevent clashes
-                ext = os.path.splitext(image.filename)[1]
-                image_path = "static/images/" + str(uuid.uuid4())[:8] + ext
-                image.save(image_path)
+                if image:
+                    # Choose a random filename to prevent clashes
+                    ext = os.path.splitext(image.filename)[1]
+                    image_path = "static/images/" + str(uuid.uuid4())[:8] + ext
+                    image.save(image_path)
+                else:
+                    image_path = None
 
                 # Any input from the user should be replaced by '%s',
                 # so that their input isn't accidentally treated as bits of SQL.
