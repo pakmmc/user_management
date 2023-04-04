@@ -39,3 +39,9 @@ nav a:hover {
 .message {
     background-color: pink;
 }
+
+img[alt=profile] {
+    border-radius: 50%;
+    aspect-ratio: 1 / 1;  /* Makes width and height the same */
+    object-fit: cover;    /* Crops instead of squashing */
+}
