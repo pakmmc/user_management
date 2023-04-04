@@ -13,7 +13,7 @@
     (session['id'] == result['id'] or session['role'] == 'admin')
 %}
     <a href="/update?id={{ result['id'] }}">Edit</a>
-    <a href="/delete?id={{ result['id'] }}">Delete</a>
+    <a href="/delete?id={{ result['id'] }}" onclick="return confirm('Are you sure?')">Delete</a>
 {% endif %}
 
 {% endblock %}
