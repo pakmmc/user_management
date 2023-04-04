@@ -110,6 +110,17 @@ def signup():
                 )
                 cursor.execute(sql, values)
                 connection.commit() # <-- NEW!!! Save to the database
+
+                # Select the new user details and store them in session
+                sql = "SELECT * FROM users WHERE email = %s"
+                values = (request.form["email"])
+                cursor.execute(sql, values)
+                result = cursor.fetchone()
+                session["logged_in"] = True
+                session["id"] = result["id"]
+                session["first_name"] = result["first_name"]
+                session["role"] = result["role"]
+
         return redirect("/")
     else:
         return render_template("signup.html")
