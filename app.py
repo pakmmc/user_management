@@ -162,6 +162,19 @@ def post():
             result = cursor.fetchone()
     return render_template("post_view.html", result=result)
 
+@app.route("/post/add", methods=["GET", "POST"])
+def add_post():
+    if request.method == "POST":
+        with create_connection() as connection:
+            with connection.cursor() as cursor:
+                sql = "INSERT INTO posts (content) VALUES (%s)"
+                values = (request.form["content"])
+                cursor.execute(sql, values)
+                connection.commit()
+        return render_template("post_add.html")
+    else:
+        return render_template("post_add.html")
+
 # /update?id=1
 @app.route("/update", methods=["GET", "POST"])
 def update():
