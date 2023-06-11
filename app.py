@@ -149,6 +149,19 @@ def view():
             result = cursor.fetchone()
     return render_template("view.html", result=result)
 
+@app.route("/save-image", methods=["POST"])
+def save_image():
+    image = request.files["image"]
+    if image:
+        # Choose a random filename to prevent clashes
+        ext = os.path.splitext(image.filename)[1]
+        image_path = "static/images/" + str(uuid.uuid4())[:8] + ext
+        image.save(image_path)
+        image_path = "/" + image_path
+    else:
+        image_path = None
+    return { "default": image_path }
+
 # /post?id=1
 @app.route("/post")
 def post():
