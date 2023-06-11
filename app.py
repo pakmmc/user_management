@@ -155,6 +155,7 @@ def post():
     with create_connection() as connection:
         with connection.cursor() as cursor:
             sql = """SELECT * FROM posts
+                    LEFT JOIN users ON posts.user_id = users.id
                     WHERE posts.id = %s"""
             values = (request.args["id"])
             cursor.execute(sql, values)
