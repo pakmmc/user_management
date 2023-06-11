@@ -2,7 +2,9 @@
 {% block content %}
 <form method="post">
     <label>Post content</label>
-    <textarea name="content"></textarea>
+    <textarea id="editor" name="content"></textarea>
     <button>Submit</button>
 </form>
+<script src="https://cdn.ckeditor.com/ckeditor5/38.0.1/classic/ckeditor.js"></script>
+<script>ClassicEditor.create(document.querySelector('#editor'));</script>
 {% endblock %}
