@@ -122,6 +122,24 @@ def signup():
                     image_path
                 )
                 cursor.execute(sql, values)
+                if str(request.form["first_name"].strip()) == str():
+                    flash("First name field is blank.")
+                    return redirect("/signup")
+                if str(request.form["last_name"].strip()) == str():
+                    flash("Last name field is blank.")
+                    return redirect("/signup")
+                if str(request.form["email"].strip()) == str():
+                    flash("Email field is blank.")
+                    return redirect("/signup")
+                if str(request.form["password"].strip()) == str():
+                    flash("Password field is blank.")
+                    return redirect("/signup")
+                if str(request.form["birthday"].strip()) == str():
+                    flash("Birthday field is blank.")
+                    return redirect("/signup")
+                if len(str(request.form["password"].strip())) <= 5:
+                    flash("Password must be more than 5 characters.")
+                    return redirect("/signup")
                 connection.commit() # <-- NEW!!! Save to the database
 
                 # Select the new user details and store them in session
@@ -258,6 +276,8 @@ def delete():
             # Get the image path before deleting the user
             sql = "SELECT image FROM users WHERE id = %s"
             values = (request.args["id"])
+            if int(values) == int(session["id"]):
+                session.clear()
             cursor.execute(sql, values)
             result = cursor.fetchone()
             if result["image"]:
